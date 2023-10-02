@@ -12,7 +12,7 @@ export async function signIn(req, res) {
             return res.status(422).send("Todos os campos são obrigatórios")
         }
         
-
+    
     //const user = await db.collection('users').findOne({ email });
 
     if(!user) {
