@@ -5,22 +5,31 @@ async function AuthSession (req, res, next){
 
     const token = authorization?.replace("Bearer ","");
 
-    if(!token ){
+    if(!token){
         return res.sendStatus(401);
     }
     try {
-        //const session = await db.collection('sessions').findOne({token: token});
+        const session = await db.query(
+            `SELECT * 
+            FROM sessions
+            WHERE token = $1`, [token]
+        )
 
-        if(!session){
+        if(session.rows.length == 0){
             return res.sendStatus(401);
         }
         
-        //const userId = await db.collection('users').findOne({_id: session.userId})
+        const { user_id } = session.rows[0]
+        const userIdExists = await db.query(
+            `SELECT * 
+            FROM users
+            WHERE id = $1` , [user_id]
+        )
 
-        if(!userId){
+        if(userIdExists.rows.length == 0){
             return res.sendStatus(401);
         }
-        res.locals.user = userId;
+        res.locals.user = user_id
         next();
     } catch (error) {
         console.log(error)

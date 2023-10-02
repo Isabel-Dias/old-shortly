@@ -1,8 +1,11 @@
 async function postUrl (req, res) {
+    //const { user_id } = res.locals.user
+    const { url } = req.body
+    
     try {
-        
+        return res.sendStatus(201)
     } catch (error) {
-        
+        return res.sendStatus(500)
     }
 }
 

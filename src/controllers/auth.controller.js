@@ -13,16 +13,24 @@ export async function signIn(req, res) {
         }
         
     
-    //const user = await db.collection('users').findOne({ email });
+    const user = await db.query(`SELECT * 
+        FROM users
+        WHERE email = $1`, [email]
+    )
 
-    if(!user) {
+    if(user.rows.length == 0) {
         return res.sendStatus(404)
     }
         
-    if(user && bcrypt.compareSync(password, user.password)) {
+    if(bcrypt.compareSync(password, user.password)) {
         const token = uuid();
-        
-        //await db.collection("sessions").insertOne({userId: user._id,token})
+        const{ id } = user.rows[0]
+
+        await db.query(
+            `INSERT INTO sessions
+            (token, user_id)
+            VALUES ($1, $2)`, [token, id]
+        )
         
         return res.status(200).send({token});
     } else {

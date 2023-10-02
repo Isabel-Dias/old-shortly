@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { deleteUrl, getOneUrl, openUrl, postUrl } from "../controllers/urls.controller.js"
+import { AuthSession } from "../middlewares/authSession.middleware.js";
 const router = Router();
 
 router.post("/urls/shorten", postUrl);
