@@ -3,9 +3,9 @@ import { deleteUrl, getOneUrl, openUrl, postUrl } from "../controllers/urls.cont
 import { AuthSession } from "../middlewares/authSession.middleware.js";
 const router = Router();
 
-router.post("/urls/shorten", postUrl);
+router.post("/urls/shorten", AuthSession, postUrl);
 router.get("/urls/:id", getOneUrl);
 router.get("/urls/open/:shortUrl", openUrl);
-router.delete("/urls/:id", deleteUrl);
+router.delete("/urls/:id", AuthSession, deleteUrl);
 
 export default router;

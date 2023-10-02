@@ -2,7 +2,7 @@ import db from '../database/database.connection.js'
 
 async function AuthSession (req, res, next){
     const { authorization } = req.headers;
-
+    const { id } = req.params
     const token = authorization?.replace("Bearer ","");
 
     if(!token){
@@ -29,7 +29,7 @@ async function AuthSession (req, res, next){
         if(userIdExists.rows.length == 0){
             return res.sendStatus(401);
         }
-        res.locals.user = user_id
+        res.locals.user = {user_id, id}
         next();
     } catch (error) {
         console.log(error)

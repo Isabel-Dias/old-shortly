@@ -8,9 +8,9 @@ export async function signIn(req, res) {
 
     const validationSchema = signInSchema.validate(req.body);
 
-        if(validationSchema.error){
-            return res.status(422).send("Todos os campos são obrigatórios")
-        }
+    if(validationSchema.error){
+        return res.status(422).send("Todos os campos são obrigatórios")
+    }
         
     
     const user = await db.query(`SELECT * 
